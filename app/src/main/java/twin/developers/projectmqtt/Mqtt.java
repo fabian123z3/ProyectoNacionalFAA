@@ -15,7 +15,8 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
 public class Mqtt {
     private static final String TAG = "MQTT";
-    private static final String MQTT_SERVER = "tcp://broker.emqx.io:1883";
+    //private static final String MQTT_SERVER = "tcp://broker.emqx.io:1883";
+    private static final String MQTT_SERVER = "tcp://10.51.0.57:1883";
     private static final String CLIENT_ID = "AndroidSample123123123";
     private static final String TOPIC = "iot/lab/test";
     private static String MESSAGE = "";
