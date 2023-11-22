@@ -1,40 +1,68 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:background="#2b2b2b"
+    tools:context="twin.developers.proyectonacionalfabian.MainActivity">
 
-    <EditText
-        android:id="@+id/txtMessage"
-        style="@style/Widget.AppCompat.EditText"
-        android:layout_width="337dp"
-        android:layout_height="85dp"
-        android:hint="Enter Message"
-        android:inputType="text"
-        android:textSize="24sp"
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/baloo_da"
+        android:text="Cual es tu color favorito?"
+        android:textAlignment="center"
+        android:textColor="#F6F5F5"
+        android:textSize="48sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.348" />
+        app:layout_constraintVertical_bias="0.09" />
+
+    <View
+        android:id="@+id/colorSeleccionadoView"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="#FF5733"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.91" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="208dp"
+        android:layout_height="183dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.447"
+        app:srcCompat="@drawable/rueda_de_color" />
 
     <Button
-        android:id="@+id/btnPublish"
-        style="@android:style/Widget.Button"
-        android:layout_width="147dp"
-        android:layout_height="83dp"
-        android:layout_below="@id/txtMessage"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:text="Publish"
-        android:textAlignment="center"
+        android:id="@+id/enviar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#912AA3"
+        android:fontFamily="@font/lilita_one"
+        android:onClick="mostrarColorPicker"
+        android:text="Elige tu color"
+        android:textColor="#F1EAEA"
         android:textSize="34sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.549" />
+        app:layout_constraintVertical_bias="0.756"
+        tools:ignore="OnClick" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

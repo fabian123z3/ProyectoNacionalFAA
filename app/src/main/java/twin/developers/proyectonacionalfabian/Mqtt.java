@@ -1,13 +1,15 @@
-package twin.developers.projectmqtt;
+package twin.developers.proyectonacionalfabian;
+
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.IMqttToken;
-import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
+import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
@@ -16,40 +18,35 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 public class Mqtt {
     private static final String TAG = "MQTT";
     private static final String MQTT_SERVER = "tcp://broker.emqx.io:1883";
-    //private static final String MQTT_SERVER = "tcp://127.0.0.1:1883";
-    private static final String CLIENT_ID = "AndroidSample12312312312312312";
-    private static final String TOPIC = "iot/lab/test";
-    private static String MESSAGE = "";
+    private static final String CLIENT_ID = "mqttx_17947d6a";
+    private static final String TOPIC_COLOR = "iot/lab/testo";
     private static final int QOS = 2;
 
     private MqttAndroidClient mqttClient;
+    private ColorChangeListener colorChangeListener;
 
-    public Mqtt(Context context) {
+    public interface ColorChangeListener {
+        void onColorChanged(String colorHex);
+    }
+
+    public Mqtt(Context context, ColorChangeListener listener) {
         String clientId = CLIENT_ID + System.currentTimeMillis();
         String serverUri = MQTT_SERVER;
+        this.colorChangeListener = listener;
 
         mqttClient = new MqttAndroidClient(context.getApplicationContext(), serverUri, clientId, new MemoryPersistence());
-        mqttClient.setCallback(new MqttCallbackExtended() {
-            @Override
-            public void connectComplete(boolean reconnect, String serverURI) {
-                if (reconnect) {
-                    Log.d(TAG, "Reconnected to: " + serverURI);
-                } else {
-                    Log.d(TAG, "Connected to: " + serverURI);
-                }
-                //publishMessage();
-                subscribeToTopic();
-            }
-
+        mqttClient.setCallback(new MqttCallback() {
             @Override
             public void connectionLost(Throwable cause) {
                 Log.d(TAG, "Connection lost: " + cause.getMessage());
             }
 
             @Override
-            public void messageArrived(String topic, MqttMessage message) throws Exception {
-                Log.d(TAG, "Message received: " + new String(message.getPayload()));
-
+            public void messageArrived(String topic, MqttMessage message) {
+                if (topic.equals(TOPIC_COLOR) && colorChangeListener != null) {
+                    String colorHex = new String(message.getPayload());
+                    colorChangeListener.onColorChanged(colorHex);
+                }
             }
 
             @Override
@@ -68,6 +65,7 @@ public class Mqtt {
                 @Override
                 public void onSuccess(IMqttToken asyncActionToken) {
                     Log.d(TAG, "Connected to MQTT broker");
+                    subscribeToColorTopic();
                 }
 
                 @Override
@@ -80,30 +78,29 @@ public class Mqtt {
         }
     }
 
-    public void publishMessage(String mensaje) {
+    public void publishColor(String colorHex) {
         try {
-            MqttMessage message = new MqttMessage(mensaje.getBytes());
+            MqttMessage message = new MqttMessage(colorHex.getBytes());
             message.setQos(QOS);
-            mqttClient.publish(TOPIC, message);
+            mqttClient.publish(TOPIC_COLOR, message);
         } catch (MqttException e) {
             e.printStackTrace();
         }
     }
 
-    public void subscribeToTopic() {
+    private void subscribeToColorTopic() {
         try {
-            mqttClient.subscribe(TOPIC, QOS, null, new IMqttActionListener() {
+            mqttClient.subscribe(TOPIC_COLOR, QOS, null, new IMqttActionListener() {
                 @Override
                 public void onSuccess(IMqttToken asyncActionToken) {
-                    Log.d(TAG, "Subscribed to topic: " + TOPIC);
+                    Log.d(TAG, "Subscribed to topic: " + TOPIC_COLOR);
                 }
 
                 @Override
                 public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                    Log.e(TAG, "Failed to subscribe to topic: " + TOPIC);
+                    Log.e(TAG, "Failed to subscribe to topic: " + TOPIC_COLOR);
                 }
             });
-
         } catch (MqttException e) {
             e.printStackTrace();
         }
@@ -116,6 +113,23 @@ public class Mqtt {
             } catch (MqttException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    // AsyncTask para la conexión MQTT
+    public static class MqttConnectionTask extends AsyncTask<Void, Void, Void> {
+        private final Context context;
+
+        public MqttConnectionTask(Context context) {
+            this.context = context.getApplicationContext();
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            // Cambio: Pasa el contexto de la actividad al constructor de Mqtt
+            Mqtt mqttManager = new Mqtt(context, null); // El segundo parámetro es un ColorChangeListener, que no es necesario aquí
+            mqttManager.connectToMqttBroker();
+            return null;
         }
     }
 }

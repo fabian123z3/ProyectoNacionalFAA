@@ -7,7 +7,7 @@ android {
     compileSdk 30
 
     defaultConfig {
-        applicationId "twin.developers.projectmqtt"
+        applicationId "cl.santotomas.proyectonacionalfabianv"
         minSdk 26
         //noinspection ExpiredTargetSdkVersion
         targetSdk 30
@@ -46,4 +46,5 @@ dependencies {
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5'
     implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
+    implementation("com.github.yukuku:ambilwarna:2.0.1")
 }
