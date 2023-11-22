@@ -1,9 +1,11 @@
 package twin.developers.proyectonacionalfabian;
 
-
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
@@ -24,6 +26,7 @@ public class Mqtt {
 
     private MqttAndroidClient mqttClient;
     private ColorChangeListener colorChangeListener;
+    private DatabaseReference databaseReference;
 
     public interface ColorChangeListener {
         void onColorChanged(String colorHex);
@@ -54,6 +57,9 @@ public class Mqtt {
                 Log.d(TAG, "Message delivered");
             }
         });
+
+        // Inicializa la referencia a la base de datos
+        databaseReference = FirebaseDatabase.getInstance().getReference("colores");
     }
 
     public void connectToMqttBroker() {
@@ -83,6 +89,8 @@ public class Mqtt {
             MqttMessage message = new MqttMessage(colorHex.getBytes());
             message.setQos(QOS);
             mqttClient.publish(TOPIC_COLOR, message);
+            // Guarda el color en Firebase
+            saveColorToFirebase(colorHex);
         } catch (MqttException e) {
             e.printStackTrace();
         }
@@ -106,6 +114,14 @@ public class Mqtt {
         }
     }
 
+    private void saveColorToFirebase(String colorHex) {
+        // Guarda el color en la base de datos de Firebase
+        String key = databaseReference.push().getKey();
+        if (key != null) {
+            databaseReference.child(key).setValue(colorHex);
+        }
+    }
+
     public void disconnect() {
         if (mqttClient != null && mqttClient.isConnected()) {
             try {
@@ -126,7 +142,7 @@ public class Mqtt {
 
         @Override
         protected Void doInBackground(Void... params) {
-            // Cambio: Pasa el contexto de la actividad al constructor de Mqtt
+            // Pasa el contexto de la actividad al constructor de Mqtt
             Mqtt mqttManager = new Mqtt(context, null); // El segundo parámetro es un ColorChangeListener, que no es necesario aquí
             mqttManager.connectToMqttBroker();
             return null;
