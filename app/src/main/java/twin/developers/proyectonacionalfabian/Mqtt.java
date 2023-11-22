@@ -21,7 +21,7 @@ public class Mqtt {
     private static final String TAG = "MQTT";
     private static final String MQTT_SERVER = "tcp://broker.emqx.io:1883";
     private static final String CLIENT_ID = "mqttx_17947d6a";
-    private static final String TOPIC_COLOR = "Android/Codigos/Colores";
+    private static final String TOPIC_COLOR = "Android/Colores/Codigos";
     private static final int QOS = 2;
 
     private MqttAndroidClient mqttClient;
