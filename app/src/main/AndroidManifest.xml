@@ -4,7 +4,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
-    <application android:allowBackup="true" android:fullBackupContent="@xml/backup_rules" android:icon="@mipmap/ic_launcher" android:label="@string/app_name" android:roundIcon="@mipmap/ic_launcher_round" android:supportsRtl="true" android:theme="@style/Theme.ProjectMqtt">
+    <application android:allowBackup="true" android:fullBackupContent="@xml/backup_rules" android:icon="@drawable/diagrama_de_venn" android:label="@string/app_name" android:roundIcon="@drawable/diagrama_de_venn" android:supportsRtl="true" android:theme="@style/Theme.ProjectMqtt">
         <!--  Mqtt Service  -->
 
         <service android:name="org.eclipse.paho.android.service.MqttService"/>
