@@ -1,7 +1,7 @@
 plugins {
     id 'com.android.application'
 }
-
+//aa
 android {
     namespace 'twin.developers.projectmqtt'
     compileSdk 30
