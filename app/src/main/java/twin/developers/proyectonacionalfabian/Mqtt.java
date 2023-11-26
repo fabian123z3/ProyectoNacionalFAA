@@ -59,7 +59,7 @@ public class Mqtt {
         });
 
         // Inicializa la referencia a la base de datos
-        databaseReference = FirebaseDatabase.getInstance().getReference("colores");
+        databaseReference = FirebaseDatabase.getInstance().getReference("Codigo de Colores");
     }
 
     public void connectToMqttBroker() {
