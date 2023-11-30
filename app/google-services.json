@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "672207780220",
+    "project_id": "proyectonacionalfabianv",
+    "storage_bucket": "proyectonacionalfabianv.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:672207780220:android:fa7fc4701eb92dc9c2ccf9",
+        "android_client_info": {
+          "package_name": "cl.santotomas.proyectonacionalfabianv"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcbOPZAlp20cjBHo2tks4hpV0gLzeY7VA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
